@@ -8,6 +8,7 @@ var mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var productsRouter = require("./routes/products");
+var categoryRouter = require("./routes/category");
 var departmentsRouter = require("./routes/departments");
 var itemsRouter = require("./routes/items");
 var authenRouter = require("./routes/authen");
@@ -28,6 +29,7 @@ app.use("/departments", departmentsRouter);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
+app.use("/category", categoryRouter);
 app.use("/items", itemsRouter);
 app.use("/authen", authenRouter);
 
