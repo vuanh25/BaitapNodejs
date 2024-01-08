@@ -7,11 +7,16 @@ var modelCategory = require("../models/category");
 var validate = require("../validates/category");
 const { validationResult } = require("express-validator");
 
-router.get("/", async function (req, res, next) {
-  var usersAll = await modelCategory.getall(req.query);
-  usersAll = usersAll.filter((product) => product.isDelete !== true);
-  responseData.responseReturn(res, 200, true, usersAll);
+router.get("/categories", (req, res) => {
+  Category.find({ isdelete: false })
+    .sort("order")
+    .populate("products")
+    .exec((err, categories) => {
+      if (err) return responseData.responseReturn(res, 500, false, err);
+      responseData.responseReturn(res, 200, true, categories);
+    });
 });
+
 router.get("/:id", async function (req, res, next) {
   // get by ID
   try {
@@ -42,11 +47,6 @@ router.post("/add", validate.validator(), async function (req, res, next) {
     });
     responseData.responseReturn(res, 200, true, newProduct);
   }
-});
-
-router.get("/getAllCategoryAndProduct", async function (req, res, next) {
-  var usersAll = await modelCategory.getAllCategoryAndProduct();
-  responseData.responseReturn(res, 200, true, usersAll);
 });
 
 module.exports = router;
